@@ -45,6 +45,18 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void AddBackpackSpace(int amountToAdd)
+    {
+        for(int i = 0; i < amountToAdd; i++)
+        {
+            ItemSlot obj = Instantiate(itemSlotPrefab, inventoryObj.transform);
+            obj.gameObject.SetActive(false);
+            itemSlotList.Add(obj);
+        }
+
+        inventorySpacesAmount += amountToAdd;
+    }
+
     public static void SetItem(Item item)
     {
         if (instance == null) return;
@@ -75,13 +87,6 @@ public class Inventory : MonoBehaviour
         return instance.items.Contains(item);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            inventoryObj.SetActive(!inventoryObj.activeInHierarchy);
-        }
-    }
 
     public static void SetInventoryImages(Item item)
     {
@@ -132,5 +137,21 @@ public class Inventory : MonoBehaviour
             }
         }
 
+    }
+
+    public bool InventoryFull()
+    {
+        int activeSlots = 0;
+
+        foreach(ItemSlot itemSlot in itemSlotList)
+        {
+            if(itemSlot.gameObject.activeInHierarchy)
+            {
+                activeSlots++;
+            }
+        }
+
+        if(activeSlots == inventorySpacesAmount) return true;
+        else return false;
     }
 }

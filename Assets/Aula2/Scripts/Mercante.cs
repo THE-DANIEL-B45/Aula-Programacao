@@ -1,3 +1,4 @@
+using PowerUp;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,15 @@ public class Mercante : MonoBehaviour
 {
     public Item item1;
     public Item item2;
-    public int price;
+    public Item item3;
     public bool canBuy;
+    [SerializeField] GameObject tradeCanvas;
+    [SerializeField] GameObject backpackTradeCanvas;
+    [SerializeField] GameObject tenisTradeCanvas;
+    [SerializeField] int tenisPrice = 10;
+    [SerializeField] int backpackPrice = 25;
+    [SerializeField] GameObject backpackUI;
+    bool backpackbought;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -24,23 +32,50 @@ public class Mercante : MonoBehaviour
     private void Update()
     {
         if(canBuy)
-        BuyStuff();
+        {
+            SellStuff();
+            BuyStuff();
+            tradeCanvas.SetActive(true);
+        }
+        else tradeCanvas.SetActive(false);
     }
 
-    private void BuyStuff()
+    private void SellStuff()
     {
-        if (Input.GetKeyDown(KeyCode.E) && (Inventory.instance.HasItem(item1) || Inventory.instance.HasItem(item2)))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             if (Inventory.instance.HasItem(item1))
             {
                 Inventory.RemoveItem(item1);
+                MoneyManager.instance.AddMoney(item1.price);
             }
-            else
+            else if(Inventory.instance.HasItem(item2))
             {
                 Inventory.RemoveItem(item2);
+                MoneyManager.instance.AddMoney(item2.price);
             }
+            else if (Inventory.instance.HasItem(item3))
+            {
+                Inventory.RemoveItem(item3);
+                MoneyManager.instance.AddMoney(item3.price);
+            }
+        }
+    }
 
-            MoneyManager.instance.AddMoney(price);
+    private void BuyStuff()
+    {
+        if(Input.GetKeyDown(KeyCode.F) && MoneyManager.instance.currentMoney >= tenisPrice)
+        {
+            PlayerController.instance.StartCoroutine(PlayerController.instance.ActivePowerUp(PowerUpType.Velocity));
+            MoneyManager.instance.AddMoney(-tenisPrice);
+        }
+        if(Input.GetKeyDown(KeyCode.Q) && !backpackbought)
+        {
+            backpackbought = true;
+            Inventory.instance.AddBackpackSpace(1);
+            MoneyManager.instance.AddMoney(-backpackPrice);
+            backpackTradeCanvas.SetActive(false);
+            backpackUI.SetActive(true);
         }
     }
 }
