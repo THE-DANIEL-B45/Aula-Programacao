@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] GameObject powerUpUI;
     [SerializeField] GameObject needBiggerBackpackText;
+    public float velocity = 0.5f;
 
     private void Awake()
     {
@@ -16,7 +17,6 @@ public class PlayerController : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public float velocity = 0.5f;
 
     private void FixedUpdate()
     {
