@@ -13,7 +13,7 @@ public class PlayerControllerAulaStateMachine : MonoBehaviour
     //Sneak Attack Variables
     public GameObject attackHitbox;
     public float attackDuration = 0.3f;
-    private bool canAttack = true;
+    public bool canAttack = false;
     private bool holdingMouse = false;
 
     private void Awake()
