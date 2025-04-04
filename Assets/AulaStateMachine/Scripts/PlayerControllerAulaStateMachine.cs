@@ -1,9 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerControllerAulaStateMachine : MonoBehaviour
 {
+    public GameObject weaponImage;
+
+    public TextMeshProUGUI currentEnemiesText;
+
+    public TextMeshProUGUI currentKeysText;
+
+    public SOWeapon currentWeapon;
+
+    public int keys;
+
+    public int enemiesDefeated;
+
     public Vector2 movementSpeed = new Vector2(100.0f, 100.0f);
 
     private new Rigidbody2D rigidbody2D;
@@ -81,5 +94,24 @@ public class PlayerControllerAulaStateMachine : MonoBehaviour
         attackHitbox.SetActive(false);
 
         canAttack = true;
+    }
+
+    public void AddKey()
+    {
+        keys++;
+        currentKeysText.text = keys.ToString();
+    }
+
+    public void GiveWeapon(SOWeapon WeaponProperties)
+    {
+        canAttack = true;
+        weaponImage.SetActive(true);
+        currentWeapon = WeaponProperties;
+    }
+
+    public void EnemyDefeated()
+    {
+        enemiesDefeated++;
+        currentEnemiesText.text = enemiesDefeated.ToString();
     }
 }

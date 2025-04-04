@@ -49,6 +49,7 @@ public class EnemyController : MonoBehaviour
 
                 if(!isWaiting && waypoints.Length > 0)
                 {
+                    ChangeColor(Color.cyan);
                     MoveToWaypoint();
                 }
                 break;
@@ -56,11 +57,13 @@ public class EnemyController : MonoBehaviour
             case EnemyState.Attack:
                 if(player != null)
                 {
+                    ChangeColor(Color.red);
                     MoveToPlayer();
                 }
                 break;
 
             case EnemyState.Search:
+                ChangeColor(Color.yellow);
                 SearchForPlayer();
                 break;
         }
@@ -152,5 +155,10 @@ public class EnemyController : MonoBehaviour
                 currentState = EnemyState.Patrol;
             }
         }
+    }
+
+    public void ChangeColor(Color color)
+    {
+        gameObject.GetComponent<SpriteRenderer>().color = color;
     }
 }

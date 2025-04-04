@@ -21,6 +21,8 @@ public class PlayerDeathHandlerAulaStateMachine : MonoBehaviour
 
     IEnumerator RestartGameAfterDelay()
     {
+        gameObject.GetComponent<SpriteRenderer>().color = Color.magenta;
+
         this.gameObject.layer = LayerMask.NameToLayer("Default");
 
         Collider2D collider = GetComponent<Collider2D>();

@@ -11,6 +11,10 @@ public class Exit : MonoBehaviour
     {
         if(collision.transform.CompareTag("Player"))
         {
+            PlayerControllerAulaStateMachine player = collision.GetComponent<PlayerControllerAulaStateMachine>();
+
+            if (player == null || player.keys != 3 || player.enemiesDefeated != 12) return;
+
             Time.timeScale = 0f;
             gameOverPanel.SetActive(true);
         }
